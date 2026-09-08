@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>경기자동차과학고등학교 미래자동차 종합현황판</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Pretendard:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --asphalt-0:#0a0d11; --asphalt-1:#12161c; --panel:#161c24; --panel-line:#232b36;
+    --panel-alt:#1a2230; --panel-alt-1:#0e131c; --panel-alt-line:#2a3a4a;
+    --text-hi:#eef2f6; --text-mid:#8b96a5; --text-low:#4d5763;
+    --amber:#ff8a3d; --amber-dim:#7a4a26; --cyan:#3ee1e8; --cyan-dim:#1c5c60;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:100vw;height:100vh;overflow:hidden;background:var(--asphalt-0);font-family:'Pretendard','Rajdhani',sans-serif;color:var(--text-hi);}
+  body{background:
+    radial-gradient(ellipse 1800px 900px at 50% -8%, rgba(62,225,232,0.05), transparent 60%),
+    radial-gradient(ellipse 1300px 800px at 105% 108%, rgba(255,138,61,0.04), transparent 60%),
+    var(--asphalt-0);}
+  .roadline{position:absolute;top:0;left:0;width:100%;height:4px;background-repeat:repeat-x;background-image:repeating-linear-gradient(90deg,var(--amber) 0 60px, transparent 60px 110px);opacity:0.5;}
+  .wrap{width:100vw;height:100vh;display:flex;flex-direction:column;padding:0.9vh 0.9vw 0.6vh;}
+
+  header{display:flex;align-items:center;justify-content:space-between;padding-bottom:0.6vh;margin-bottom:0.6vh;border-bottom:1px solid var(--panel-line);flex:none;}
+  .brand{display:flex;flex-direction:column;gap:0.2vh;}
+  .brand .school{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.8vw;letter-spacing:0.13em;color:var(--text-mid);text-transform:uppercase;}
+  .brand .dept{font-weight:800;font-size:1.7vw;letter-spacing:-0.01em;}
+  .brand .dept span.accent{color:var(--cyan);text-shadow:0 0 16px rgba(62,225,232,0.5);}
+  .headright{display:flex;align-items:center;gap:1.1vw;}
+  .logo-badge{width:4.4vh;height:4.4vh;border-radius:10px;border:1px solid var(--panel-line);background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center;}
+  .logo-badge svg{width:60%;height:60%;}
+  .dateodo{display:flex;flex-direction:column;align-items:flex-end;}
+  .dateodo .md{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:1.7vw;line-height:1;color:var(--amber);text-shadow:0 0 16px rgba(255,138,61,0.4);font-variant-numeric:tabular-nums;}
+  .dateodo .yw{margin-top:0.2vh;font-size:0.68vw;color:var(--text-mid);font-weight:600;}
+  .clockdigits{font-family:'Rajdhani',sans-serif;font-weight:700;font-size:2vw;line-height:1;color:var(--text-hi);font-variant-numeric:tabular-nums;padding-left:1.1vw;border-left:1px solid var(--panel-line);width:8ch;text-align:right;flex:none;}
+
+  main{flex:1;min-height:0;display:flex;flex-direction:column;gap:0.7vh;}
+
+  .panel{background:linear-gradient(180deg,var(--panel),var(--asphalt-1));border:1px solid var(--panel-line);border-radius:12px;padding:0.7vh 0.8vw;display:flex;flex-direction:column;min-height:0;position:relative;overflow:hidden;}
+  .panel::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--cyan);opacity:0.8;}
+  .panel-title{font-weight:700;font-size:0.92vw;color:var(--text-hi);margin-bottom:0.5vh;display:flex;align-items:baseline;gap:0.7vw;flex:none;}
+  .panel-sub{font-family:'Rajdhani',sans-serif;font-weight:600;font-size:0.62vw;letter-spacing:0.05em;color:var(--amber);}
+
+  /* rooms */
+  .rooms-panel{flex:0 0 41vh;background:linear-gradient(180deg,var(--panel-alt),var(--panel-alt-1));border-color:var(--panel-alt-line);}
+  .rooms-panel::before{background:var(--amber);}
+  .room-card{background:rgba(255,255,255,0.035);border-color:var(--panel-alt-line);}
+  .section-divider{flex:none;height:3px;border-radius:2px;background:var(--cyan);opacity:0.85;box-shadow:0 0 10px rgba(62,225,232,0.5);margin:0.1vh 0;}
+  .rooms-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);gap:0.55vw;}
+  .room-card{background:rgba(255,255,255,0.02);border:1px solid var(--panel-line);border-radius:8px;padding:0.4vh 0.5vw;display:flex;flex-direction:column;min-height:0;overflow:hidden;}
+  .room-head{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.25vh;flex:none;gap:0.3vw;}
+  .room-head .rn{font-weight:700;font-size:0.74vw;color:var(--cyan);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+  .room-head .rt{font-size:0.6vw;color:var(--amber);font-weight:700;white-space:nowrap;}
+  .room-gridbox{display:grid;grid-template-columns:13% repeat(5,1fr);grid-template-rows:repeat(8,1fr);width:100%;flex:1;min-height:0;gap:1px;}
+  .rg-cell{min-height:0;min-width:0;overflow:hidden;display:flex;align-items:center;justify-content:center;font-family:'Rajdhani',sans-serif;font-size:0.64vw;color:var(--text-hi);font-weight:500;border-bottom:1px solid rgba(255,255,255,0.04);line-height:1;}
+  .rg-cell.rg-head{color:var(--text-low);font-weight:600;font-size:0.58vw;}
+  .rg-cell.rg-period{color:var(--text-low);}
+  .rg-cell.merged-cell{flex-direction:column;white-space:normal;line-height:1.1;font-weight:700;background:rgba(62,225,232,0.09);border-left:2px solid var(--cyan-dim);border-right:2px solid var(--cyan-dim);font-size:0.56vw;}
+  .rg-cell.merged-cell div:first-child{color:var(--cyan);font-weight:700;}
+  .rg-cell.merged-cell div:nth-child(2){color:var(--amber);font-weight:700;}
+  .rg-cell.merged-cell-1line{font-size:0.5vw;}
+  .rg-cell.merged-cell-1line .mc-a{color:var(--cyan);}
+  .rg-cell.merged-cell-1line .mc-b{color:var(--amber);}
+  .rg-cell.today-col{background:rgba(255,138,61,0.13);}
+  .rg-cell.rg-head.today-col{background:rgba(255,138,61,0.28);color:var(--amber);font-weight:800;}
+  .rg-cell.merged-cell.today-col{background:rgba(255,138,61,0.16);border-left-color:var(--amber-dim);border-right-color:var(--amber-dim);}
+
+  /* row2: course + duty-grid(2x2) */
+  .row2{flex:1;min-height:0;display:flex;gap:0.7vw;}
+  .course-panel{flex:1.7;min-height:0;}
+  table.course-table{width:100%;border-collapse:collapse;}
+  table.course-table th, table.course-table td{text-align:center;font-size:0.74vw;padding:0.32vh 0.35vw;border-bottom:1px solid var(--panel-line);}
+  table.course-table th{color:var(--text-hi);font-weight:600;font-size:0.64vw;letter-spacing:0.03em;}
+  table.course-table td{color:var(--text-hi);font-weight:500;}
+  table.course-table td s{color:var(--text-low);text-decoration-color:var(--miss,#ff5d5d);}
+  table.course-table td.name-cell{cursor:pointer;transition:background 0.15s;}
+  table.course-table td.name-cell:hover{background:rgba(255,255,255,0.06);}
+  table.course-table td.name-cell.edited-name{color:#9dff6b;font-weight:700;}
+  table.course-table td.period{font-family:'Rajdhani',sans-serif;color:var(--cyan);font-weight:700;}
+  table.course-table td.cname{text-align:left;}
+  table.course-table td.croom{color:var(--text-hi);text-align:left;}
+  table.course-table td.merged-cell{background:rgba(62,225,232,0.06);border-left:2px solid var(--cyan-dim);border-right:2px solid var(--cyan-dim);}
+  table.course-table td.today-col{background:rgba(255,138,61,0.15);font-weight:800;color:#fff;}
+  table.course-table td.merged-cell.today-col{background:rgba(255,138,61,0.18);border-left-color:var(--amber-dim);border-right-color:var(--amber-dim);}
+  table.course-table th.today-col{background:rgba(255,138,61,0.3);color:var(--amber)!important;}
+  table.course-table tr.week-head-row th{text-align:center;font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--text-low);background:rgba(62,225,232,0.05);border-top:2px solid var(--panel-line);}
+  table.course-table tr.week-head-row th.wk-day{color:var(--amber);}
+  table.course-table tr.week-head-row th.wk-tag{color:var(--cyan);text-align:left;}
+
+  .duty-grid{flex:1;min-height:0;display:flex;flex-direction:column;gap:0.6vw;}
+  .duty-trio{flex:0 0 34%;min-height:0;display:flex;gap:0.55vw;}
+  .duty-panel{min-height:0;flex:1;}
+  .duty-icon-row{display:flex;align-items:center;gap:0.5vw;margin-bottom:0.3vh;flex:none;}
+  .duty-icon{width:1.9vh;height:1.9vh;flex:none;display:flex;align-items:center;justify-content:center;border-radius:6px;background:rgba(255,255,255,0.04);border:1px solid var(--panel-line);}
+  .duty-icon svg{width:60%;height:60%;}
+  .duty-count{font-family:'Rajdhani',sans-serif;font-size:0.55vw;color:var(--text-low);font-weight:600;}
+  .duty-list{flex:1;min-height:0;column-count:2;column-gap:0.4vw;}
+  .d-row{display:flex;align-items:center;gap:0.08vw;padding:0.06vh 0.18vw;border-radius:4px;margin-bottom:0.05vh;break-inside:avoid;font-size:0.58vw;}
+  .d-row .dd{font-family:'Rajdhani',sans-serif;font-weight:600;color:var(--text-mid);white-space:nowrap;flex:0 0 auto;width:3.3vw;}
+  .d-row .dn{font-weight:600;color:var(--text-hi);white-space:nowrap;overflow:visible;flex:1;text-align:right;min-width:0;}
+  .d-row.past{opacity:0.38;}
+  .d-row.next{background:linear-gradient(90deg, rgba(62,225,232,0.16), rgba(62,225,232,0.03));border:1px solid var(--cyan-dim);}
+  .d-row.next .dd{color:var(--cyan);}
+  .d-row.next .dn{color:var(--text-hi);font-weight:700;}
+  .d-row.today{background:linear-gradient(90deg, rgba(255,138,61,0.28), rgba(255,138,61,0.06));border:1.5px solid var(--amber);box-shadow:0 0 14px rgba(255,138,61,0.35);}
+  .d-row.today .dd{color:var(--amber);}
+  .d-row.today .dn{color:#fff;font-weight:800;}
+
+  /* exam panel (enlarged) */
+  .exam-panel{flex:1;min-height:0;}
+  .exam-panel .panel-title{margin-bottom:0.4vh;font-size:0.88vw;}
+  .exam-tables{flex:1;min-height:0;display:grid;grid-template-columns:1fr 1fr;gap:0.9vw;}
+  .exam-block{display:flex;flex-direction:column;min-height:0;}
+  .exam-block h4{font-family:'Rajdhani',sans-serif;font-size:0.68vw;letter-spacing:0.08em;text-transform:uppercase;color:var(--amber);margin-bottom:0.3vh;font-weight:700;flex:none;}
+  table.exam-table{width:100%;border-collapse:collapse;}
+  table.exam-table th, table.exam-table td{font-size:0.62vw;padding:0.34vh 0.4vw;border-bottom:1px solid var(--panel-line);text-align:left;line-height:1.25;}
+  table.exam-table th{color:var(--text-hi);font-weight:600;}
+  table.exam-table td{color:var(--text-hi);}
+  table.exam-table td.round{color:var(--text-hi);font-weight:700;font-family:'Rajdhani',sans-serif;font-size:0.68vw;}
+  table.exam-table td.exam-nearest{background:rgba(255,138,61,0.28);color:#fff;font-weight:800;box-shadow:0 0 10px rgba(255,138,61,0.4);border:1px solid var(--amber);}
+
+  footer{margin-top:0.5vh;padding-top:0.5vh;border-top:1px solid var(--panel-line);display:flex;align-items:center;justify-content:space-between;font-size:0.6vw;color:var(--text-low);font-weight:500;flex:none;}
+  footer .legend{display:flex;gap:1.1vw;}
+  footer .legend span{display:flex;align-items:center;gap:0.35vw;}
+  footer .sw{width:0.55vw;height:0.55vw;border-radius:3px;}
+
+  /* ================= MOBILE (phone) ================= */
+  @media (max-width: 900px){
+    html,body{height:auto;min-height:100vh;overflow-x:hidden;overflow-y:auto;}
+    .roadline{position:absolute;}
+    .wrap{width:100%;height:auto;padding:3vw 3.5vw 6vw;}
+
+    header{flex-direction:column;align-items:flex-start;gap:2.5vw;padding-bottom:2.5vw;margin-bottom:2.5vw;}
+    .brand .school{font-size:2.6vw;}
+    .brand .dept{font-size:5.6vw;}
+    .headright{width:100%;justify-content:space-between;gap:3vw;}
+    .logo-badge{width:9vw;height:9vw;border-radius:2.2vw;}
+    .dateodo .md{font-size:6vw;}
+    .dateodo .yw{font-size:2.4vw;}
+    .clockdigits{font-size:6.5vw;padding-left:3vw;}
+
+    main{display:flex;flex-direction:column;height:auto;overflow:visible;gap:3vw;}
+
+    .panel{border-radius:3vw;padding:3vw 3.5vw;overflow:visible;}
+    .panel-title{font-size:4vw;margin-bottom:2vw;}
+    .panel-sub{font-size:2.6vw;}
+
+    /* rooms: single column, full-width cards, horizontal scroll for the code table */
+    .rooms-panel{flex:none;height:auto;}
+    .rooms-grid{display:flex;flex-direction:column;gap:3vw;}
+    .room-card{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:2.2vw 3vw;}
+    .room-head .rn{font-size:3.8vw;}
+    .room-head .rt{font-size:3.3vw;}
+    .room-gridbox{min-width:480px;grid-template-rows:repeat(8,minmax(7vw,auto));}
+    .rg-cell{font-size:3.1vw;padding:1vw 0;}
+    .rg-cell.rg-head{font-size:2.9vw;}
+
+    .row2{flex-direction:column;height:auto;gap:3vw;}
+    .course-panel{flex:none;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+    table.course-table{min-width:780px;}
+    table.course-table th, table.course-table td{font-size:2.9vw;padding:1.4vw 1.6vw;}
+
+    .duty-grid{flex:none;display:flex;flex-direction:column;gap:3vw;}
+    .duty-trio{flex:none;flex-direction:column;gap:3vw;}
+    .duty-panel{flex:none;min-height:auto;}
+    .duty-icon{width:5vw;height:5vw;}
+    .duty-icon-row > div:nth-child(2){font-size:3.6vw !important;}
+    .duty-count{font-size:2.6vw;}
+    .duty-list{column-count:2;column-gap:3vw;}
+    .d-row{font-size:2.9vw;padding:1vw 1.6vw;}
+    .d-row .dd{width:auto;margin-right:1.5vw;}
+
+    .exam-panel{flex:none;}
+    .exam-panel .panel-title{font-size:4.2vw;}
+    .exam-tables{grid-template-columns:1fr;gap:3vw;}
+    .exam-block h4{font-size:3.4vw;}
+    table.exam-table th, table.exam-table td{font-size:3vw;padding:1.6vw 1.8vw;line-height:1.4;}
+    table.exam-table td.round{font-size:3.4vw;}
+
+    footer{flex-direction:column;align-items:flex-start;gap:2vw;font-size:2.6vw;padding-top:2.5vw;margin-top:2.5vw;}
+    footer .legend{gap:4vw;}
+    footer .sw{width:2.6vw;height:2.6vw;}
+  }
+</style>
+</head>
+<body>
+<div class="roadline"></div>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="school">Gyeonggi Automobile Science High School</div>
+      <div class="dept">경기자동차과학고등학교 <span class="accent">미래자동차 종합현황판</span></div>
+    </div>
+    <div class="headright">
+      <div class="logo-badge">
+        <svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M3 13l1.6-4.8A2 2 0 0 1 6.5 7h11a2 2 0 0 1 1.9 1.2L21 13"/>
+          <path d="M3 13h18v4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-1H6v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1z"/>
+          <circle cx="7.5" cy="16.5" r="1.4"/><circle cx="16.5" cy="16.5" r="1.4"/>
+        </svg>
+      </div>
+      <div class="dateodo">
+        <div class="md" id="mdDisplay">--·--</div>
+        <div class="yw" id="ywDisplay">----년 --월 --일 (-)</div>
+      </div>
+      <div class="clockdigits" id="clockDisplay">--:--:--</div>
+    </div>
+  </header>
+
+  <main>
+    <div class="panel rooms-panel">
+      <div class="rooms-grid" id="roomsGrid"></div>
+    </div>
+
+    <div class="section-divider"></div>
+
+    <div class="row2">
+      <div class="panel course-panel">
+        <div class="panel-title">방과후수업 전체 시간표 <span class="panel-sub">2026 5·6차(취업역량강화) · 8.3(월)~9.18(금)</span></div>
+        <table class="course-table" id="courseTable">
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div class="duty-grid">
+        <div class="duty-trio">
+          <div class="panel duty-panel" id="dutyPanelDuty"></div>
+          <div class="panel duty-panel" id="dutyPanelCommute"></div>
+          <div class="panel duty-panel" id="dutyPanelLunch"></div>
+        </div>
+        <div class="panel exam-panel">
+          <div class="panel-title">기능사 자격시험 일정</div>
+          <div class="exam-tables">
+            <div class="exam-block">
+              <h4>필기시험</h4>
+              <table class="exam-table" id="writtenTable">
+                <thead><tr><th>회차</th><th>원서접수</th><th>시험시행</th><th>발표</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+            <div class="exam-block">
+              <h4>실기시험</h4>
+              <table class="exam-table" id="practicalTable">
+                <thead><tr><th>회차</th><th>원서접수</th><th>시험시행</th><th>발표</th></tr></thead>
+                <tbody></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div>실시간 자동 업데이트 · 오늘 날짜에 해당하는 항목 자동 강조 · 지난 일정은 흐리게 표시</div>
+    <div class="legend">
+      <span><i class="sw" style="background:var(--amber)"></i>오늘</span>
+      <span><i class="sw" style="background:var(--text-low)"></i>지난 일정</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+const ICONS = {
+  moon:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z"/></svg>',
+  footprints:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="7" r="2.6"/><path d="M6 12c-1 2-1 5 .5 7 1 1.3 3 1 3-.6 0-1.6-1-2-1-4"/><circle cx="17" cy="12" r="2.6"/><path d="M15 17c-1 2-1 5 .5 7 1 1.3 3 1 3-.6 0-1.6-1-2-1-4"/></svg>',
+  utensils:'<svg viewBox="0 0 24 24" fill="none" stroke="var(--cyan)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3v8M4 3v5a2 2 0 0 0 2 2 2 2 0 0 0 2-2V3M6 11v10"/><path d="M17 3c-1.7 0-3 2-3 5s1.3 5 3 5v8"/></svg>'
+};
+
+/* ============ ROOMS ============ */
+const rooms = [
+  {name:'응용프로그래밍1실', teacher:'이재영',
+    merges:[
+      {col:0, rowStart:1, rowSpan:2, text:['화면구현 2-6','이/송']},
+      {col:1, rowStart:1, rowSpan:2, text:['화면구현 2-7','이재영']},
+      {col:1, rowStart:5, rowSpan:2, text:['응프개발 3-7','이재영']},
+      {col:2, rowStart:4, rowSpan:2, text:['응프개발 2-7','이재영']},
+      {col:2, rowStart:6, rowSpan:2, text:['응프개발 3-7','이재영']},
+      {col:3, rowStart:1, rowSpan:2, text:['화면구현 2-6','이재영']},
+      {col:3, rowStart:5, rowSpan:2, text:['화면구현 2-7','이/송']},
+      {col:4, rowStart:3, rowSpan:1, text:['응프개발 2-7','이재영']},
+      {col:4, rowStart:4, rowSpan:1, text:['자율 2-7','이재영']},
+      {col:4, rowStart:5, rowSpan:1, text:['자율 3-5','이재영']},
+      {col:4, rowStart:6, rowSpan:2, text:['C.A / H.R']}
+    ]},
+  {name:'응용프로그래밍2실', teacher:'허종민',
+    merges:[
+      {col:0, rowStart:5, rowSpan:2, text:['응프개발 2-7','허종민']},
+      {col:1, rowStart:1, rowSpan:2, text:['응프개발 3-7','허종민']},
+      {col:1, rowStart:3, rowSpan:1, text:['응프개발 2-7','허종민']},
+      {col:2, rowStart:1, rowSpan:3, text:['응프개발 3-7','허종민']},
+      {col:2, rowStart:5, rowSpan:3, text:['응프개발 2-6','허종민']},
+      {col:3, rowStart:5, rowSpan:3, text:['응프개발 3-7','허종민']},
+      {col:4, rowStart:5, rowSpan:1, text:['창체']},
+      {col:4, rowStart:6, rowSpan:2, text:['C.A / H.R']}
+    ]},
+  {name:'응용프로그래밍3실', teacher:'홍정순',
+    merges:[
+      {col:0, rowStart:1, rowSpan:3, text:['프로 1-3','홍정순']},
+      {col:0, rowStart:5, rowSpan:3, text:['프로 1-2','홍정순']},
+      {col:1, rowStart:2, rowSpan:3, text:['프로 1-4','홍정순']},
+      {col:2, rowStart:5, rowSpan:3, text:['프로 1-5','홍정순']},
+      {col:3, rowStart:1, rowSpan:3, text:['프로 1-6','홍정순']},
+      {col:4, rowStart:5, rowSpan:1, text:['자율 2-7','홍정순']},
+      {col:4, rowStart:6, rowSpan:2, text:['C.A / H.R']}
+    ]},
+  {name:'데이터베이스프로그래밍실', teacher:'박윤미',
+    merges:[
+      {col:0, rowStart:3, rowSpan:2, text:['응프개발 2-6','박윤미']},
+      {col:0, rowStart:6, rowSpan:2, text:['응프개발 3-6','박윤미']},
+      {col:1, rowStart:4, rowSpan:3, text:['응프개발 2-7','박윤미']},
+      {col:2, rowStart:3, rowSpan:1, text:['응프개발 2-7','박윤미']},
+      {col:2, rowStart:6, rowSpan:2, text:['응프개발 3-5','박윤미']},
+      {col:3, rowStart:1, rowSpan:2, text:['응프개발 3-7','박윤미']},
+      {col:4, rowStart:1, rowSpan:2, text:['응프개발 2-6','박윤미']},
+      {col:4, rowStart:4, rowSpan:1, text:['자율 2-5','박윤미']},
+      {col:4, rowStart:5, rowSpan:1, text:['자율 2-6','박윤미']},
+      {col:4, rowStart:6, rowSpan:2, text:['C.A / H.R']}
+    ]},
+  {name:'멀티미디어실', teacher:'성기오',
+    merges:[
+      {col:0, rowStart:1, rowSpan:2, text:['자율주행 1-7','박윤미']},
+      {col:0, rowStart:5, rowSpan:2, text:['자율주행 1-1','성기오']},
+      {col:1, rowStart:2, rowSpan:2, text:['자율주행 1-2','성기오']},
+      {col:2, rowStart:1, rowSpan:3, text:['프로 1-1','성기오']},
+      {col:2, rowStart:5, rowSpan:2, text:['자율주행 1-4','성기오']},
+      {col:3, rowStart:1, rowSpan:2, text:['자율주행 1-3','성기오']},
+      {col:3, rowStart:6, rowSpan:2, text:['자율주행 1-5','성기오']},
+      {col:4, rowStart:2, rowSpan:2, text:['자율주행 1-6','성기오']},
+      {col:4, rowStart:6, rowSpan:2, text:['C.A / H.R']}
+    ]},
+  {name:'커넥티드카실습실', teacher:'김상현',
+    merges:[
+      {col:0, rowStart:1, rowSpan:3, text:['커넥 2-7','김상현/전']},
+      {col:0, rowStart:5, rowSpan:3, text:['커넥 2-6','김상현/전']},
+      {col:1, rowStart:1, rowSpan:4, text:['커넥 3-5','김상현']},
+      {col:2, rowStart:3, rowSpan:2, text:['커넥 3-6','김상현']},
+      {col:3, rowStart:5, rowSpan:2, text:['커넥 3-6','김상현']},
+      {col:4, rowStart:5, rowSpan:1, text:['자율 1-7','김상현']},
+      {col:4, rowStart:6, rowSpan:2, text:['C.A / H.R']}
+    ]},
+  {name:'AI자율주행자동차실습실', teacher:'전병두',
+    merges:[
+      {col:0, rowStart:1, rowSpan:3, text:['커넥 2-7','전/김']},
+      {col:0, rowStart:6, rowSpan:2, text:['커넥 2-6','전/김']},
+      {col:1, rowStart:1, rowSpan:2, text:['응프개발 3-6','전병두']},
+      {col:1, rowStart:6, rowSpan:1, text:['응프개발 3-5','전병두']},
+      {col:2, rowStart:3, rowSpan:2, text:['응프개발 3-5','전병두']},
+      {col:2, rowStart:6, rowSpan:2, text:['응프개발 3-6','전병두']},
+      {col:3, rowStart:3, rowSpan:2, text:['응프개발 3-7','전병두']},
+      {col:4, rowStart:6, rowSpan:2, text:['C.A / H.R']}
+    ]},
+  {name:'자율주행실습실', teacher:'송병섭',
+    merges:[
+      {col:0, rowStart:1, rowSpan:2, text:['화면구현 2-6','송병섭']},
+      {col:0, rowStart:3, rowSpan:1, text:['응용개발 2-6','송/박']},
+      {col:1, rowStart:3, rowSpan:2, text:['커넥 3-7','송병섭']},
+      {col:2, rowStart:3, rowSpan:1, text:['응프개발 2-6','송/박']},
+      {col:3, rowStart:5, rowSpan:2, text:['화면구현 2-7','송병섭']},
+      {col:4, rowStart:1, rowSpan:2, text:['커넥 3-7','송병섭']},
+      {col:4, rowStart:4, rowSpan:1, text:['자율 1-7','송병섭']},
+      {col:4, rowStart:5, rowSpan:1, text:['자율 3-7','송병섭']},
+      {col:4, rowStart:6, rowSpan:2, text:['C.A / H.R']}
+    ]}
+];
+function getTodayWeekdayCol(){
+  const d = new Date().getDay(); // 0=일,1=월,...6=토
+  return (d>=1 && d<=5) ? d-1 : -1; // 0=월 ... 4=금, -1=주말
+}
+function buildRoomGridCells(r, todayCol){
+  const periods = 7, days = 5;
+  const dayLabels = ['월','화','수','목','금'];
+  let html = '';
+  const tc = (c)=> c===todayCol ? ' today-col' : '';
+  // header row
+  html += `<div class="rg-cell rg-head" style="grid-column:1;grid-row:1;"></div>`;
+  dayLabels.forEach((d,c)=>{ html += `<div class="rg-cell rg-head${tc(c)}" style="grid-column:${c+2};grid-row:1;">${d}</div>`; });
+  // period label column
+  for(let p=0;p<periods;p++){
+    html += `<div class="rg-cell rg-period" style="grid-column:1;grid-row:${p+2};">${p+1}</div>`;
+  }
+  if(!r.merges){
+    r.rows.forEach((row,p)=>{
+      row.forEach((v,c)=>{
+        html += `<div class="rg-cell${tc(c)}" style="grid-column:${c+2};grid-row:${p+2};">${v}</div>`;
+      });
+    });
+    return html;
+  }
+  const occ = Array.from({length:periods}, ()=>Array(days).fill(false));
+  r.merges.forEach(m=>{
+    const r0 = m.rowStart - 1;
+    for(let i=0;i<m.rowSpan;i++){ occ[r0+i][m.col] = true; }
+    const isSingle = m.text.length === 1;
+    const cellClass = isSingle ? 'merged-cell merged-cell-1line' : 'merged-cell';
+    const content = isSingle
+      ? `<div><span class="mc-a">${m.text[0]}</span>${m.text.length>1 ? ' · <span class="mc-b">'+m.text[1]+'</span>' : ''}</div>`
+      : m.text.map(l=>`<div>${l}</div>`).join('');
+    html += `<div class="rg-cell ${cellClass}${tc(m.col)}" style="grid-column:${m.col+2};grid-row:${r0+2} / span ${m.rowSpan};">${content}</div>`;
+  });
+  for(let p=0;p<periods;p++){
+    for(let c=0;c<days;c++){
+      if(occ[p][c]) continue;
+      html += `<div class="rg-cell${tc(c)}" style="grid-column:${c+2};grid-row:${p+2};"></div>`;
+    }
+  }
+  return html;
+}
+function renderRooms(){
+  const grid = document.getElementById('roomsGrid');
+  grid.innerHTML = '';
+  const todayCol = getTodayWeekdayCol();
+  rooms.forEach(r=>{
+    const card = document.createElement('div');
+    card.className = 'room-card';
+    const cells = buildRoomGridCells(r, todayCol);
+    card.innerHTML = `
+      <div class="room-head"><span class="rn">${r.name}</span><span class="rt">${r.teacher}</span></div>
+      <div class="room-gridbox">${cells}</div>`;
+    grid.appendChild(card);
+  });
+}
+
+/* ============ 방과후수업 전체 ============ */
+const courseWeeks = [
+  {
+    tag:'6-2주차', days:['월 8.24','화 8.25','수 8.26','목 8.27','금 8.28'],
+    courses:[
+      {period:8, name:'미래자동차전기기능사반', room:'전기실습실'},
+      {period:10, name:'과정평가형심화반', room:'응용프로그래밍실2'},
+      {period:11, name:'과정평가형기초반', room:'응용프로그래밍실1'}
+    ],
+    names:[
+      ['전병두','송병섭','전병두','송병섭','전병두'],
+      ['<s>허종민</s> 이재영','이재영','홍정순','허종민','<s>이재영</s> 허종민'],
+      ['김상현','<s>박윤미</s> 성기오','김상현','김상현','김상현']
+    ],
+    merges:[]
+  },
+  {
+    tag:'6-3주차', days:['월 8.31','화 9.1','수 9.2','목 9.3','금 9.4'],
+    courses:[
+      {period:8, name:'미래자동차전기기능사반', room:'전기실습실'},
+      {period:10, name:'과정평가형심화반', room:'응용프로그래밍실2'},
+      {period:11, name:'과정평가형기초반', room:'응용프로그래밍실1'}
+    ],
+    names:[
+      ['송병섭','전병두','송병섭','전병두','송병섭'],
+      ['허종민','홍정순','허종민','홍정순','이재영'],
+      ['성기오','<s>박윤미</s> 김상현','<s>김상현</s> 박윤미','성기오','박윤미']
+    ],
+    merges:[]
+  },
+  {
+    tag:'6-4주차', days:['월 9.7','화 9.8','수 9.9','목 9.10','금 9.11'],
+    courses:[
+      {period:8, name:'미래자동차전기기능사반', room:'전기실습실'},
+      {period:10, name:'과정평가형심화반', room:'응용프로그래밍실2'},
+      {period:11, name:'과정평가형기초반', room:'응용프로그래밍실1'}
+    ],
+    names:[
+      ['전병두','송병섭','전병두','송병섭','전병두'],
+      ['허종민','OJT','허종민','홍정순','이재영'],
+      ['김상현','성기오','박윤미','김상현','성기오']
+    ],
+    merges:[]
+  },
+  {
+    tag:'6-5주차', days:['월 9.14','화 9.15','수 9.16','목 9.17','금 9.18'],
+    courses:[
+      {period:8, name:'미래자동차전기기능사반', room:'전기실습실'},
+      {period:10, name:'과정평가형심화반', room:'응용프로그래밍실2'},
+      {period:11, name:'과정평가형기초반', room:'응용프로그래밍실1'}
+    ],
+    names:[
+      ['송병섭','전병두','송병섭','전병두', null],
+      ['홍정순','OJT','이재영','홍정순', null],
+      ['박윤미','김상현','성기오','김상현', null]
+    ],
+    merges:[]
+  }
+];
+
+function getTodayCourseCol(week){
+  const d = new Date();
+  const mm = d.getMonth()+1, dd = d.getDate();
+  for(let c=0;c<week.days.length;c++){
+    const parts = week.days[c].split(' ')[1]; // e.g. "7.6"
+    const [m,day] = parts.split('.').map(Number);
+    if(m===mm && day===dd) return c;
+  }
+  return -1;
+}
+function getCourseOverrides(){
+  try{ return JSON.parse(localStorage.getItem('courseNameOverrides') || '{}'); }
+  catch(e){ return {}; }
+}
+function setCourseOverride(key, value){
+  const o = getCourseOverrides();
+  if(value === '' || value === null){ delete o[key]; }
+  else { o[key] = value; }
+  localStorage.setItem('courseNameOverrides', JSON.stringify(o));
+}
+function escapeHtml(s){
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function buildCourseWeekRows(week, weekIndex){
+  const nRows = week.courses.length, nDays = week.days.length;
+  const todayCol = getTodayCourseCol(week);
+  const tc = (c)=> c===todayCol ? ' today-col' : '';
+  const overrides = getCourseOverrides();
+  const grid = Array.from({length:nRows}, ()=>Array(nDays).fill(null));
+  week.names.forEach((rowNames, r)=>{ rowNames.forEach((v,c)=>{ if(v!==null && v!==undefined) grid[r][c] = {plain:v}; }); });
+  week.merges.forEach(m=>{
+    for(let i=0;i<m.rowSpan;i++){
+      grid[m.row+i][m.col] = (i===0) ? {start:true, rowspan:m.rowSpan, lines:m.text} : 'skip';
+    }
+  });
+  let html = '';
+  for(let r=0;r<nRows;r++){
+    const c0 = week.courses[r];
+    let rowHtml = `<td class="period">${c0.period}</td><td class="cname">${c0.name}</td><td class="croom">${c0.room}</td>`;
+    for(let c=0;c<nDays;c++){
+      const cell = grid[r][c];
+      if(cell === 'skip') continue;
+      if(cell && cell.start){
+        rowHtml += `<td rowspan="${cell.rowspan}" class="merged-cell${tc(c)}">${cell.lines.map(l=>`<div>${l}</div>`).join('')}</td>`;
+      } else {
+        const key = `${weekIndex}:${r}:${c}`;
+        const hasOverride = Object.prototype.hasOwnProperty.call(overrides, key);
+        const original = (cell && cell.plain !== undefined) ? cell.plain : '';
+        const display = hasOverride ? overrides[key] : original;
+        const editedClass = hasOverride && overrides[key] !== '' ? ' edited-name' : '';
+        rowHtml += `<td class="name-cell${tc(c)}${editedClass}" data-week="${weekIndex}" data-r="${r}" data-c="${c}">${display}</td>`;
+      }
+    }
+    html += `<tr>${rowHtml}</tr>`;
+  }
+  return {html, todayCol};
+}
+
+function renderCourses(){
+  const tbody = document.querySelector('#courseTable tbody');
+  let html = '';
+  courseWeeks.forEach((week, weekIndex)=>{
+    const {html: rowsHtml, todayCol} = buildCourseWeekRows(week, weekIndex);
+    html += `<tr class="week-head-row">
+      <th class="wk-tag">${week.tag}</th><th>강좌명</th><th>강의실</th>
+      ${week.days.map((d,c)=>`<th class="wk-day${c===todayCol?' today-col':''}">${d}</th>`).join('')}
+    </tr>`;
+    html += rowsHtml;
+  });
+  tbody.innerHTML = html;
+}
+
+function setupCourseNameEditing(){
+  const tbody = document.querySelector('#courseTable tbody');
+  if(!tbody || tbody.dataset.editBound) return;
+  tbody.dataset.editBound = '1';
+  tbody.addEventListener('click', (e)=>{
+    const td = e.target.closest('.name-cell');
+    if(!td) return;
+    const weekIndex = td.dataset.week, r = td.dataset.r, c = td.dataset.c;
+    const key = `${weekIndex}:${r}:${c}`;
+    const current = td.textContent;
+    const input = window.prompt('이름을 입력하세요 (비우고 확인하면 삭제됩니다):', current);
+    if(input === null) return; // cancelled
+    setCourseOverride(key, escapeHtml(input.trim()));
+    renderCourses();
+  });
+}
+
+/* ============ 자격시험 일정 ============ */
+const written = [
+  {round:'제1회', apply:'1.6(화)~1.9(금)', test:'1.20(화)~1.24(토)', result:'1.30(금)'},
+  {round:'제2회', apply:'3.16(월)~3.20(금)', test:'4.4(토)~4.9(목)', result:'4.22(수)'},
+  {round:'면제', apply:'해당없음', test:'해당없음', result:'해당없음'},
+  {round:'제3회', apply:'6.8(월)~6.11(목)', test:'6.27(토)~7.2(목)', result:'7.15(수)'},
+  {round:'제4회', apply:'8.24(월)~8.27(목)', test:'9.16(수)~9.21(월)', result:'10.7(수)'}
+];
+const practical = [
+  {round:'제1회', apply:'2.2(월)~2.5(목)', test:'3.14(토)~4.1(수)', result:'1차4.10(금)·2차4.17(금)'},
+  {round:'제2회', apply:'4.27(월)~4.30(목)', test:'5.30(토)~6.14(일)', result:'1차6.26(금)·2차7.3(금)'},
+  {round:'면제', apply:'5.11(월)~5.14(목)', test:'6.13(토)~6.24(수)', result:'1차7.10(금)·2차7.16(목)'},
+  {round:'제3회', apply:'7.27(월)~7.30(목)', test:'8.29(토)~9.16(수)', result:'1차10.2(금)·2차10.8(목)'},
+  {round:'제4회', apply:'10.12(월)~10.15(목)', test:'11.14(토)~12.2(수)', result:'1차12.11(금)·2차12.18(금)'}
+];
+function twoLine(str){
+  if(!str) return str;
+  if(str.includes('~')){
+    const idx = str.indexOf('~');
+    return str.slice(0,idx+1) + '<br>' + str.slice(idx+1);
+  }
+  if(str.includes('·')){
+    return str.replace('·','<br>');
+  }
+  return str;
+}
+function extractExamDates(str){
+  if(!str) return [];
+  const matches = str.match(/\d{1,2}\.\d{1,2}/g) || [];
+  return matches.map(s=>{
+    const [m,d] = s.split('.').map(Number);
+    return new Date(2026, m-1, d);
+  });
+}
+function renderExams(){
+  const today = new Date(); today.setHours(0,0,0,0);
+  const candidates = [];
+  function scan(rows, tableKey){
+    rows.forEach((w,ri)=>{
+      ['apply','test','result'].forEach(field=>{
+        extractExamDates(w[field]).forEach(dt=>{
+          if(dt >= today) candidates.push({date:dt, tableKey, ri, field});
+        });
+      });
+    });
+  }
+  scan(written,'written');
+  scan(practical,'practical');
+  candidates.sort((a,b)=>a.date-b.date);
+  const nearest = candidates[0];
+  function hl(tableKey, ri, field){
+    return (nearest && nearest.tableKey===tableKey && nearest.ri===ri && nearest.field===field) ? ' exam-nearest' : '';
+  }
+  document.querySelector('#writtenTable tbody').innerHTML = written.map((w,ri)=>`<tr><td class="round">${w.round}</td><td class="${hl('written',ri,'apply').trim()}">${twoLine(w.apply)}</td><td class="${hl('written',ri,'test').trim()}">${twoLine(w.test)}</td><td class="${hl('written',ri,'result').trim()}">${twoLine(w.result)}</td></tr>`).join('');
+  document.querySelector('#practicalTable tbody').innerHTML = practical.map((w,ri)=>`<tr><td class="round">${w.round}</td><td class="${hl('practical',ri,'apply').trim()}">${twoLine(w.apply)}</td><td class="${hl('practical',ri,'test').trim()}">${twoLine(w.test)}</td><td class="${hl('practical',ri,'result').trim()}">${twoLine(w.result)}</td></tr>`).join('');
+}
+
+/* ============ 당직 / 등하교지도 / 중식지도 ============ */
+const categories = [
+  {key:'duty', title:'미래자동차부 당직', icon:'moon', target:'dutyPanelDuty', maxShow:18,
+    entries:[['2026-03-17','조은희','화'],['2026-04-01','전병두','수'],['2026-04-13','성기오','월'],['2026-04-22','김상현','수'],['2026-05-04','이재영','월'],['2026-05-20','송병섭','수'],['2026-05-22','허종미','금'],['2026-06-04','조은희','목'],['2026-06-19','전병두','금'],['2026-07-01','성기오','수'],['2026-07-10','김상현','금'],['2026-08-19','이재영','수'],['2026-08-28','박윤미','금'],['2026-08-31','홍정순','월'],['2026-09-03','송병섭','목'],['2026-09-07','허종민','월'],['2026-09-14','허종민','월'],['2026-09-23','조은희','수'],['2026-10-14','전병두','수'],['2026-10-26','성기오','월'],['2026-11-04','김상현','수'],['2026-11-16','이재영','월'],['2026-11-25','박윤미','수'],['2026-11-26','홍정순','목'],['2026-12-02','송병섭','수'],['2026-12-04','허종민','금'],['2026-12-15','조은희','화'],['2026-12-31','전병두','목']]},
+  {key:'commute', title:'교통지도', icon:'footprints', target:'dutyPanelCommute',
+    entries:[
+      ['2026-09-01','박윤미','화'],
+      ['2026-09-02','홍정순','수'],
+      ['2026-09-07','송병섭','월'],
+      ['2026-09-09','허종민','수'],
+      ['2026-10-08','전병두','목'],
+      ['2026-10-30','김상현','금'],
+      ['2026-11-11','이재영','수'],
+      ['2026-11-20','박윤미','금'],
+      ['2026-11-23','홍정순','월'],
+      ['2026-11-26','송병섭','목'],
+      ['2026-11-30','허종민','월'],
+      ['2026-12-24','전병두','목']
+    ]},
+  {key:'lunch', title:'중식지도', icon:'utensils', target:'dutyPanelLunch', maxShow:18,
+    entries:[['2026-08-24','홍정순','월'],['2026-09-02','성기오','수'],['2026-09-07','김상현','월'],['2026-09-07','홍정순','월'],['2026-09-08','전병두','화'],['2026-10-06','조은희','화'],['2026-10-07','홍정순','수'],['2026-10-13','전병두','화'],['2026-10-19','성기오','월'],['2026-10-22','허종민','목'],['2026-10-22','이재영','목'],['2026-10-23','김상현','금'],['2026-11-09','이재영','월'],['2026-11-12','박윤미','목'],['2026-11-16','김상현','월'],['2026-11-18','박윤미','수'],['2026-11-23','홍정순','월'],['2026-11-25','조은희','수'],['2026-11-26','박윤미','목'],['2026-11-30','이재영','월'],['2026-12-08','전병두','화'],['2026-12-09','성기오','수'],['2026-12-14','이재영','월'],['2026-12-16','허종민','수'],['2026-12-21','전병두','월'],['2026-12-23','조은희','수'],['2026-12-24','박윤미','목'],['2026-12-29','성기오','화'],['2027-01-04','허종민','월']]}
+];
+
+function todayISO(){
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;
+}
+function fmtMD(iso){ const [y,m,d]=iso.split('-'); return `${m}.${d}`; }
+
+function pickDisplayEntries(entries, ti, max){
+  const future = entries.filter(e=>e[0] >= ti);
+  if(!max || future.length<=max) return future;
+  return future.slice(0, max);
+}
+
+function renderDuty(){
+  const ti = todayISO();
+  categories.forEach(cat=>{
+    const el = document.getElementById(cat.target);
+
+    if(cat.periodBased){
+      const sorted = cat.entries.slice().sort((a,b)=> a.start<b.start ? -1 : (a.start>b.start?1:0));
+      const upcoming = sorted.filter(p=> p.end >= ti);
+      const current = upcoming.find(p=> p.start <= ti && ti <= p.end);
+      const nextEntry = !current ? upcoming.find(p=> p.start > ti) : null;
+      const rows = upcoming.map(p=>{
+        let cls = '';
+        if(current && p === current) cls = 'today';
+        else if(nextEntry && p === nextEntry) cls = 'next';
+        return `<div class="d-row ${cls}"><span class="dd">${p.label}</span><span class="dn">${p.name}</span></div>`;
+      }).join('');
+      el.innerHTML = `
+        <div class="duty-icon-row">
+          <div class="duty-icon">${ICONS[cat.icon]}</div>
+          <div style="font-weight:700;font-size:0.78vw;">${cat.title}</div>
+          <div class="duty-count">예정 ${upcoming.length}건</div>
+        </div>
+        <div class="duty-list">${rows}</div>
+      `;
+      return;
+    }
+
+    const sorted = cat.entries.slice().sort((a,b)=> a[0]<b[0] ? -1 : (a[0]>b[0]?1:0));
+    const nearest = sorted.find(e=> e[0] >= ti);
+    const displayEntries = pickDisplayEntries(sorted, ti, cat.maxShow);
+    const rows = displayEntries.map(e=>{
+      let cls = '';
+      if(nearest && e[0] === nearest[0] && e[0] === ti) cls = 'today';
+      else if(nearest && e[0] === nearest[0]) cls = 'next';
+      return `<div class="d-row ${cls}"><span class="dd">${fmtMD(e[0])}(${e[2]})</span><span class="dn">${e[1]}</span></div>`;
+    }).join('');
+    el.innerHTML = `
+      <div class="duty-icon-row">
+        <div class="duty-icon">${ICONS[cat.icon]}</div>
+        <div style="font-weight:700;font-size:0.78vw;">${cat.title}</div>
+        <div class="duty-count">${cat.maxShow && displayEntries.length===cat.maxShow && sorted.filter(e=>e[0]>=ti).length>cat.maxShow ? '예정 '+sorted.filter(e=>e[0]>=ti).length+'건 중 '+displayEntries.length+'건' : '예정 '+displayEntries.length+'건'}</div>
+      </div>
+      <div class="duty-list">${rows}</div>
+    `;
+  });
+}
+
+const weekdayKR = ['일','월','화','수','목','금','토'];
+function tick(){
+  const d = new Date();
+  document.getElementById('clockDisplay').textContent = `${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}:${String(d.getSeconds()).padStart(2,'0')}`;
+  document.getElementById('mdDisplay').textContent = `${String(d.getMonth()+1).padStart(2,'0')}·${String(d.getDate()).padStart(2,'0')}`;
+  document.getElementById('ywDisplay').textContent = `${d.getFullYear()}년 ${d.getMonth()+1}월 ${d.getDate()}일 (${weekdayKR[d.getDay()]})`;
+}
+
+renderRooms();
+renderCourses();
+setupCourseNameEditing();
+renderExams();
+renderDuty();
+tick();
+setInterval(tick,1000);
+setInterval(renderDuty,60000);
+setInterval(()=>{ location.reload(); }, 6*60*60*1000);
+</script>
+</body>
+</html>
