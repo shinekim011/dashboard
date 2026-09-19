@@ -74,12 +74,12 @@
   .week-card.week-card-wide{grid-column:1 / -1;}
   .week-card-title{font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--cyan);font-size:0.6vw;margin-bottom:0.12vh;letter-spacing:0.02em;}
   table.wk-table{width:100%;border-collapse:collapse;table-layout:fixed;}
-  table.wk-table th, table.wk-table td{text-align:center;font-size:0.56vw;padding:0.08vh 0.1vw;border-bottom:1px solid rgba(255,255,255,0.05);}
-  table.wk-table th{color:var(--text-hi);font-weight:600;font-size:0.5vw;}
-  table.wk-table th.wk-day{color:var(--amber);}
+  table.wk-table th, table.wk-table td{text-align:center;font-size:0.68vw;padding:0.06vh 0.04vw;border-bottom:1px solid rgba(255,255,255,0.05);}
+  table.wk-table th{color:var(--text-hi);font-weight:600;font-size:0.6vw;}
+  table.wk-table th.wk-day{color:var(--amber);font-size:0.5vw;line-height:1.15;}
   table.wk-table th.today-col{background:rgba(255,138,61,0.3);color:var(--amber)!important;}
   table.wk-table td{color:var(--text-hi);font-weight:500;}
-  table.wk-table td.cshort{text-align:left;color:var(--text-mid);font-weight:700;white-space:nowrap;width:14%;}
+  table.wk-table td.cshort{text-align:left;color:var(--text-mid);font-weight:700;white-space:nowrap;width:9%;}
   table.wk-table td s{color:var(--text-low);text-decoration-color:var(--miss,#ff5d5d);}
   table.wk-table td.name-cell{cursor:pointer;transition:background 0.15s;}
   table.wk-table td.name-cell:hover{background:rgba(255,255,255,0.06);}
@@ -544,7 +544,11 @@ function buildWeekCard(week, weekIndex){
     }
     bodyHtml += `<tr>${rowHtml}</tr>`;
   }
-  const headHtml = `<tr><th></th>${week.days.map((d,c)=>`<th class="wk-day${c===todayCol?' today-col':''}">${d}</th>`).join('')}</tr>`;
+  const headHtml = `<tr><th></th>${week.days.map((d,c)=>{
+    const parts = d.split(' ');
+    const label = parts.length>1 ? `${parts[0]}<br>${parts[1]}` : d;
+    return `<th class="wk-day${c===todayCol?' today-col':''}">${label}</th>`;
+  }).join('')}</tr>`;
   return `
     <div class="week-card${week.wide ? ' week-card-wide' : ''}">
       <div class="week-card-title">${week.tag}</div>
