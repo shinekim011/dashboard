@@ -69,24 +69,24 @@
   /* row2: course + duty-grid(2x2) */
   .row2{flex:1;min-height:0;display:flex;gap:0.7vw;}
   .course-panel{flex:1.7;min-height:0;}
-  table.course-table{width:100%;border-collapse:collapse;}
-  table.course-table th, table.course-table td{text-align:center;font-size:0.74vw;padding:0.32vh 0.35vw;border-bottom:1px solid var(--panel-line);}
-  table.course-table th{color:var(--text-hi);font-weight:600;font-size:0.64vw;letter-spacing:0.03em;}
-  table.course-table td{color:var(--text-hi);font-weight:500;}
-  table.course-table td s{color:var(--text-low);text-decoration-color:var(--miss,#ff5d5d);}
-  table.course-table td.name-cell{cursor:pointer;transition:background 0.15s;}
-  table.course-table td.name-cell:hover{background:rgba(255,255,255,0.06);}
-  table.course-table td.name-cell.edited-name{color:#9dff6b;font-weight:700;}
-  table.course-table td.period{font-family:'Rajdhani',sans-serif;color:var(--cyan);font-weight:700;}
-  table.course-table td.cname{text-align:left;}
-  table.course-table td.croom{color:var(--text-hi);text-align:left;}
-  table.course-table td.merged-cell{background:rgba(62,225,232,0.06);border-left:2px solid var(--cyan-dim);border-right:2px solid var(--cyan-dim);}
-  table.course-table td.today-col{background:rgba(255,138,61,0.15);font-weight:800;color:#fff;}
-  table.course-table td.merged-cell.today-col{background:rgba(255,138,61,0.18);border-left-color:var(--amber-dim);border-right-color:var(--amber-dim);}
-  table.course-table th.today-col{background:rgba(255,138,61,0.3);color:var(--amber)!important;}
-  table.course-table tr.week-head-row th{text-align:center;font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--text-low);background:rgba(62,225,232,0.05);border-top:2px solid var(--panel-line);}
-  table.course-table tr.week-head-row th.wk-day{color:var(--amber);}
-  table.course-table tr.week-head-row th.wk-tag{color:var(--cyan);text-align:left;}
+  .course-weeks-grid{flex:1;min-height:0;display:grid;grid-template-columns:repeat(2,1fr);grid-auto-rows:min-content;gap:0.3vh 0.6vw;overflow:hidden;align-content:start;}
+  .week-card{background:rgba(255,255,255,0.02);border:1px solid var(--panel-line);border-radius:6px;padding:0.18vh 0.4vw 0.28vh;}
+  .week-card.week-card-wide{grid-column:1 / -1;}
+  .week-card-title{font-family:'Rajdhani',sans-serif;font-weight:700;color:var(--cyan);font-size:0.6vw;margin-bottom:0.12vh;letter-spacing:0.02em;}
+  table.wk-table{width:100%;border-collapse:collapse;table-layout:fixed;}
+  table.wk-table th, table.wk-table td{text-align:center;font-size:0.56vw;padding:0.08vh 0.1vw;border-bottom:1px solid rgba(255,255,255,0.05);}
+  table.wk-table th{color:var(--text-hi);font-weight:600;font-size:0.5vw;}
+  table.wk-table th.wk-day{color:var(--amber);}
+  table.wk-table th.today-col{background:rgba(255,138,61,0.3);color:var(--amber)!important;}
+  table.wk-table td{color:var(--text-hi);font-weight:500;}
+  table.wk-table td.cshort{text-align:left;color:var(--text-mid);font-weight:700;white-space:nowrap;width:14%;}
+  table.wk-table td s{color:var(--text-low);text-decoration-color:var(--miss,#ff5d5d);}
+  table.wk-table td.name-cell{cursor:pointer;transition:background 0.15s;}
+  table.wk-table td.name-cell:hover{background:rgba(255,255,255,0.06);}
+  table.wk-table td.name-cell.edited-name{color:#9dff6b;font-weight:700;}
+  table.wk-table td.merged-cell{background:rgba(62,225,232,0.06);border-left:2px solid var(--cyan-dim);border-right:2px solid var(--cyan-dim);}
+  table.wk-table td.today-col{background:rgba(255,138,61,0.15);font-weight:800;color:#fff;}
+  table.wk-table td.merged-cell.today-col{background:rgba(255,138,61,0.18);border-left-color:var(--amber-dim);border-right-color:var(--amber-dim);}
 
   .duty-grid{flex:1;min-height:0;display:flex;flex-direction:column;gap:0.6vw;}
   .duty-trio{flex:0 0 34%;min-height:0;display:flex;gap:0.55vw;}
@@ -157,9 +157,10 @@
     .rg-cell.rg-head{font-size:2.9vw;}
 
     .row2{flex-direction:column;height:auto;gap:3vw;}
-    .course-panel{flex:none;overflow-x:auto;-webkit-overflow-scrolling:touch;}
-    table.course-table{min-width:780px;}
-    table.course-table th, table.course-table td{font-size:2.9vw;padding:1.4vw 1.6vw;}
+    .course-panel{flex:none;overflow-x:visible;}
+    .course-weeks-grid{grid-template-columns:1fr;gap:2vw;}
+    table.wk-table th, table.wk-table td{font-size:2.6vw;padding:1vw 0.8vw;}
+    .week-card-title{font-size:3.2vw;}
 
     .duty-grid{flex:none;display:flex;flex-direction:column;gap:3vw;}
     .duty-trio{flex:none;flex-direction:column;gap:3vw;}
@@ -218,10 +219,8 @@
 
     <div class="row2">
       <div class="panel course-panel">
-        <div class="panel-title">방과후수업 전체 시간표 <span class="panel-sub">2026 5·6차(취업역량강화) · 8.3(월)~9.18(금)</span></div>
-        <table class="course-table" id="courseTable">
-          <tbody></tbody>
-        </table>
+        <div class="panel-title">방과후수업 전체 시간표 <span class="panel-sub">2026 6·7차(취업역량강화) · 8.24(월)~11.27(금)</span></div>
+        <div class="course-weeks-grid" id="courseWeeksGrid"></div>
       </div>
 
       <div class="duty-grid">
@@ -427,58 +426,56 @@ function renderRooms(){
 /* ============ 방과후수업 전체 ============ */
 const courseWeeks = [
   {
-    tag:'6-2주차', days:['월 8.24','화 8.25','수 8.26','목 8.27','금 8.28'],
+    tag:'7-1~2주차', wide:true,
+    days:['월 10.5','화 10.6','수 10.7','목 10.8','금 10.9','월 10.12','화 10.13','수 10.14','목 10.15','금 10.16'],
     courses:[
-      {period:8, name:'미래자동차전기기능사반', room:'전기실습실'},
-      {period:10, name:'과정평가형심화반', room:'응용프로그래밍실2'},
-      {period:11, name:'과정평가형기초반', room:'응용프로그래밍실1'}
+      {period:8, name:'과정평가형기초반', room:'응용프로그래밍실1'},
+      {period:9, name:'과정평가형심화반', room:'응용프로그래밍실2'}
     ],
     names:[
-      ['전병두','송병섭','전병두','송병섭','전병두'],
-      ['<s>허종민</s> 이재영','이재영','홍정순','허종민','<s>이재영</s> 허종민'],
-      ['김상현','<s>박윤미</s> 성기오','김상현','김상현','김상현']
+      [null,'성기오','김상현',null,null,'박윤미','전병두','송병섭','성기오','김상현'],
+      [null,'OJT','이재영',null,null,'허종민','OJT','홍정순','이재영','홍정순']
     ],
     merges:[]
   },
   {
-    tag:'6-3주차', days:['월 8.31','화 9.1','수 9.2','목 9.3','금 9.4'],
+    tag:'7-3~4주차', wide:true,
+    days:['월 10.19','화 10.20','수 10.21','목 10.22','금 10.23','월 10.26','화 10.27','수 10.28','목 10.29','금 10.30'],
     courses:[
-      {period:8, name:'미래자동차전기기능사반', room:'전기실습실'},
-      {period:10, name:'과정평가형심화반', room:'응용프로그래밍실2'},
-      {period:11, name:'과정평가형기초반', room:'응용프로그래밍실1'}
+      {period:8, name:'과정평가형기초반', room:'응용프로그래밍실1'},
+      {period:9, name:'과정평가형심화반', room:'응용프로그래밍실2'}
     ],
     names:[
-      ['송병섭','전병두','송병섭','전병두','송병섭'],
-      ['허종민','홍정순','허종민','홍정순','이재영'],
-      ['성기오','<s>박윤미</s> 김상현','<s>김상현</s> 박윤미','성기오','박윤미']
+      ['박윤미','전병두','송병섭','성기오',null,'김상현','박윤미','전병두','김상현','송병섭'],
+      ['허종민','OJT','홍정순','이재영',null,'허종민','OJT','홍정순','이재영','허종민']
     ],
     merges:[]
   },
   {
-    tag:'6-4주차', days:['월 9.7','화 9.8','수 9.9','목 9.10','금 9.11'],
+    tag:'7-5~6주차', wide:true,
+    days:['월 11.2','화 11.3','수 11.4','목 11.5','금 11.6','월 11.9','화 11.10','수 11.11','목 11.12','금 11.13'],
     courses:[
-      {period:8, name:'미래자동차전기기능사반', room:'전기실습실'},
-      {period:10, name:'과정평가형심화반', room:'응용프로그래밍실2'},
-      {period:11, name:'과정평가형기초반', room:'응용프로그래밍실1'}
+      {period:8, name:'과정평가형기초반', room:'응용프로그래밍실1'},
+      {period:9, name:'과정평가형심화반', room:'응용프로그래밍실2'},
+      {period:'특별', name:'WCRC 대회준비반', room:'커넥티드실습실'}
     ],
     names:[
-      ['전병두','송병섭','전병두','송병섭','전병두'],
-      ['허종민','OJT','허종민','<s>홍정순</s> 박윤미','이재영'],
-      ['김상현','성기오','<s>박윤미</s> 홍정순','<s>김상현</s> 성기오','성기오']
+      ['성기오','박윤미','전병두','송병섭',null,'성기오',null,'박윤미','전병두','송병섭'],
+      ['이재영','OJT','홍정순','허종민',null,'이재영',null,'홍정순','허종민','이재영'],
+      [null,null,null,null,null,'김상현','김상현','김상현','김상현','김상현']
     ],
     merges:[]
   },
   {
-    tag:'6-5주차', days:['월 9.14','화 9.15','수 9.16','목 9.17','금 9.18'],
+    tag:'7-7~8주차', wide:true,
+    days:['월 11.16','화 11.17','수 11.18','목 11.19','금 11.20','월 11.23','화 11.24','수 11.25','목 11.26','금 11.27'],
     courses:[
-      {period:8, name:'미래자동차전기기능사반', room:'전기실습실'},
-      {period:10, name:'과정평가형심화반', room:'응용프로그래밍실2'},
-      {period:11, name:'과정평가형기초반', room:'응용프로그래밍실1'}
+      {period:8, name:'과정평가형기초반', room:'응용프로그래밍실1'},
+      {period:9, name:'과정평가형심화반', room:'응용프로그래밍실2'}
     ],
     names:[
-      ['송병섭','전병두','송병섭','전병두', null],
-      ['홍정순','OJT','이재영','홍정순', null],
-      ['박윤미','김상현','성기오','김상현', null]
+      ['성기오','박윤미',null,null,null,'전병두','송병섭','김상현',null,null],
+      ['허종민','OJT',null,null,null,'허종민','OJT','홍정순',null,null]
     ],
     merges:[]
   }
@@ -508,7 +505,14 @@ function escapeHtml(s){
   return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
 }
 
-function buildCourseWeekRows(week, weekIndex){
+function shortCourseLabel(course){
+  if(course.period === '특별' || /WCRC/.test(course.name)) return '특별';
+  if(/기초/.test(course.name)) return '기초반';
+  if(/심화/.test(course.name)) return '심화반';
+  return course.name.slice(0,4);
+}
+
+function buildWeekCard(week, weekIndex){
   const nRows = week.courses.length, nDays = week.days.length;
   const todayCol = getTodayCourseCol(week);
   const tc = (c)=> c===todayCol ? ' today-col' : '';
@@ -520,10 +524,10 @@ function buildCourseWeekRows(week, weekIndex){
       grid[m.row+i][m.col] = (i===0) ? {start:true, rowspan:m.rowSpan, lines:m.text} : 'skip';
     }
   });
-  let html = '';
+  let bodyHtml = '';
   for(let r=0;r<nRows;r++){
     const c0 = week.courses[r];
-    let rowHtml = `<td class="period">${c0.period}</td><td class="cname">${c0.name}</td><td class="croom">${c0.room}</td>`;
+    let rowHtml = `<td class="cshort">${shortCourseLabel(c0)}</td>`;
     for(let c=0;c<nDays;c++){
       const cell = grid[r][c];
       if(cell === 'skip') continue;
@@ -538,30 +542,26 @@ function buildCourseWeekRows(week, weekIndex){
         rowHtml += `<td class="name-cell${tc(c)}${editedClass}" data-week="${weekIndex}" data-r="${r}" data-c="${c}">${display}</td>`;
       }
     }
-    html += `<tr>${rowHtml}</tr>`;
+    bodyHtml += `<tr>${rowHtml}</tr>`;
   }
-  return {html, todayCol};
+  const headHtml = `<tr><th></th>${week.days.map((d,c)=>`<th class="wk-day${c===todayCol?' today-col':''}">${d}</th>`).join('')}</tr>`;
+  return `
+    <div class="week-card${week.wide ? ' week-card-wide' : ''}">
+      <div class="week-card-title">${week.tag}</div>
+      <table class="wk-table"><thead>${headHtml}</thead><tbody>${bodyHtml}</tbody></table>
+    </div>`;
 }
 
 function renderCourses(){
-  const tbody = document.querySelector('#courseTable tbody');
-  let html = '';
-  courseWeeks.forEach((week, weekIndex)=>{
-    const {html: rowsHtml, todayCol} = buildCourseWeekRows(week, weekIndex);
-    html += `<tr class="week-head-row">
-      <th class="wk-tag">${week.tag}</th><th>강좌명</th><th>강의실</th>
-      ${week.days.map((d,c)=>`<th class="wk-day${c===todayCol?' today-col':''}">${d}</th>`).join('')}
-    </tr>`;
-    html += rowsHtml;
-  });
-  tbody.innerHTML = html;
+  const grid = document.getElementById('courseWeeksGrid');
+  grid.innerHTML = courseWeeks.map((week, weekIndex)=> buildWeekCard(week, weekIndex)).join('');
 }
 
 function setupCourseNameEditing(){
-  const tbody = document.querySelector('#courseTable tbody');
-  if(!tbody || tbody.dataset.editBound) return;
-  tbody.dataset.editBound = '1';
-  tbody.addEventListener('click', (e)=>{
+  const grid = document.getElementById('courseWeeksGrid');
+  if(!grid || grid.dataset.editBound) return;
+  grid.dataset.editBound = '1';
+  grid.addEventListener('click', (e)=>{
     const td = e.target.closest('.name-cell');
     if(!td) return;
     const weekIndex = td.dataset.week, r = td.dataset.r, c = td.dataset.c;
